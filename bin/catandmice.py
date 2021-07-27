@@ -2,6 +2,7 @@
 import sys
 import unittest
 
+# 13
 #13,1,3,6,10,5,2,4,9,11,12,7
 def skipcount(pos, n, visited):
     if len(visited) == 0:
@@ -12,22 +13,20 @@ def skipcount(pos, n, visited):
             pos = (pos + 1) % n
     return pos
 
-def checkwheel(miceremaining, pos, n, visited):
-    next = skipcount(pos, n, visited)
-    visited.add(next)
-    if miceremaining > 1:
-        if next == 0:
-            return False
-        return checkwheel(miceremaining-1, next, n, visited)
-    return next == 0 
-
-def checksequence(i, n):
+def checksequence(pos, n):
     miceremaining = n
     visited = set()
-    return checkwheel(miceremaining, i, n, visited)
+    while miceremaining > 1:
+        pos = skipcount(pos, n, visited)
+        visited.add(pos)
+        if pos == 0:
+            return False
+        miceremaining -= 1
+    pos = skipcount(pos, n, visited)
+    return pos == 0 
                 
 def skipmice(n):
-    if n == 1:
+    if n < 1:
         return 0
     for i in range(n):
         if checksequence(i, n):
@@ -45,7 +44,7 @@ if __name__ == '__main__':
     if len(sys.argv) > 1:
         for num in sys.argv[1:]:
             pos = skipmice(int(num))
-            if pos and pos >= 0:
+            if pos is not None and pos >= 0:
                 print('%s, Yes, %d' % (num, pos))
             else:
                 print('%s, No' % (num))
