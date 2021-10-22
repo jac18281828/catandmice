@@ -1,10 +1,6 @@
-ARG VERSION=bullseye-slim
+ARG VERSION=102221
 
-FROM debian:${VERSION} 
-
-RUN export DEBIAN_FRONTEND=noninteractive && \
-    apt update && \
-    apt -y install python3 python3-pip
+FROM jac18281828/pythondev:${VERSION} 
 
 # build project
 ARG PROJECT=catandmice
